@@ -13,25 +13,36 @@ export class Game {
         this.canvas = new Canvas(Constants.GAME_WIDTH, Constants.GAME_HEIGHT);
         this.skier = new Skier(0, 0);
         this.obstacleManager = new ObstacleManager();
+        this.timestamp = 0.0;
 
         document.addEventListener('keydown', this.handleKeyDown.bind(this));
     }
 
     init() {
         this.obstacleManager.placeInitialObstacles();
+
+        // Need to have state of game window ready in case of drawing
+        this.calculateGameWindow();
     }
 
     async load() {
         await this.assetManager.loadAssets(Constants.ASSETS);
     }
 
-    run() {
+    run(timestamp = performance.now()) {
+        // Per MDN, request next frame early instead of later (see https://developer.mozilla.org/en-US/docs/Games/Anatomy)
+        requestAnimationFrame(this.run.bind(this));
+
         this.canvas.clearCanvas();
 
-        this.updateGameWindow();
-        this.drawGameWindow();
+        // Check if frame is ready to be progressed
+        if(timestamp - this.timestamp >= Constants.FRAME_RATE) {
+            this.timestamp = timestamp;
 
-        requestAnimationFrame(this.run.bind(this));
+            this.updateGameWindow();
+        }
+
+        this.drawGameWindow();
     }
 
     updateGameWindow() {
