@@ -13,8 +13,24 @@ export class Skier extends Entity {
     }
 
     setDirection(direction) {
+        if(!Object.values(Constants.SKIER_DIRECTIONS).includes(direction)) {
+            throw new Error(`Direction is not valid`);
+        }
+
         this.direction = direction;
         this.updateAsset();
+    }
+
+    rotateLeft() {
+        if(this.direction !== Constants.SKIER_DIRECTIONS.CRASH && this.direction > Constants.SKIER_DIRECTIONS.LEFT) {
+            this.setDirection(this.direction - 1);
+        }
+    }
+
+    rotateRight() {
+        if(this.direction !== Constants.SKIER_DIRECTIONS.CRASH && this.direction < Constants.SKIER_DIRECTIONS.RIGHT) {
+            this.setDirection(this.direction + 1);
+        }
     }
 
     updateAsset() {
@@ -66,7 +82,7 @@ export class Skier extends Entity {
             this.moveSkierLeft();
         }
         else {
-            this.setDirection(this.direction - 1);
+            this.rotateLeft();
         }
     }
 
@@ -75,7 +91,7 @@ export class Skier extends Entity {
             this.moveSkierRight();
         }
         else {
-            this.setDirection(this.direction + 1);
+            this.rotateRight();
         }
     }
 
