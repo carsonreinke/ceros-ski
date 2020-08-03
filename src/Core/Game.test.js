@@ -1,31 +1,19 @@
 import { Game } from './Game';
 import * as Constants from '../Constants';
-import { Canvas } from './Canvas';
-import { AssetManager } from './AssetManager';
 
 jest.mock('./AssetManager');
 jest.mock('./Canvas');
 
-beforeAll(() => {
-    //TODO
-    AssetManager.mockImplementation(() => {
-        return {
-            loadAssets: jest.fn(),
-            getAsset: () => {
-                return {
-                    width: 100,
-                    height: 100
-                };
-            }
-        }
-    });
+let game;
+
+beforeEach(() => {
+    game = new Game();
 });
 
 describe('run', () => {
     it('should update game when frame rate passed', async () => {
         const timestamp = Constants.FRAME_RATE + 1;
-        const game = new Game();
-        
+
         jest.spyOn(game, 'updateGameWindow');
 
         await game.load();
@@ -34,11 +22,10 @@ describe('run', () => {
 
         expect(game.updateGameWindow).toHaveBeenCalled();
     });
-    
+
     it('should not update game when frame rate has not passed', async () => {
         const timestamp = Constants.FRAME_RATE - 1;
-        const game = new Game();
-        
+
         jest.spyOn(game, 'updateGameWindow');
 
         await game.load();
@@ -46,5 +33,18 @@ describe('run', () => {
         game.run(timestamp);
 
         expect(game.updateGameWindow).not.toHaveBeenCalled();
+    });
+});
+
+describe('handleKeyDown', () => {
+    it('should trigger jump on space', async () => {
+        jest.spyOn(game.skier, 'jump');
+
+        await game.load();
+        game.init();
+
+        game.handleKeyDown(new KeyboardEvent('keydown', { which: 32 }));
+
+        expect(game.skier.jump).toHaveBeenCalled();
     });
 });

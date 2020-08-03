@@ -20,10 +20,15 @@ export class Entity {
         };
     }
 
+    getPerspectivePosition() {
+        return this.getPosition();
+    }
+
     draw(canvas, assetManager) {
+        const {x, y} = this.getPerspectivePosition();
         const asset = assetManager.getAsset(this.assetName);
-        const drawX = this.x - asset.width / 2;
-        const drawY = this.y - asset.height / 2;
+        const drawX = x - asset.width / 2;
+        const drawY = y - asset.height / 2;
 
         canvas.drawImage(asset, drawX, drawY, asset.width, asset.height);
     }

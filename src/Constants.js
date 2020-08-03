@@ -14,8 +14,12 @@ export const ROCK2 = 'rock2';
 
 export const FRAME_RATE = 1 / 60.0 /*frames per second*/ * 1000.0 /*milliseconds per second*/;
 
+export const GRAVITY = 1.5;
+export const FRICTION = 0.9;
+
 export const SKIER_STARTING_SPEED = 10;
 export const SKIER_DIAGONAL_SPEED_REDUCER = 1.4142;
+export const SKIER_JUMP_VELOCITY = 10;
 
 export const ASSETS = {
     [SKIER_CRASH]: 'img/skier_crash.png',
@@ -52,5 +56,6 @@ export const KEYS = {
     LEFT : 37,
     RIGHT : 39,
     UP : 38,
-    DOWN : 40
+    DOWN : 40,
+    SPACE : 32
 };
