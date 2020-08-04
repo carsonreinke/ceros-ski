@@ -186,16 +186,11 @@ export class Skier extends Entity {
                 obstaclePosition.y
             );
 
-            return intersectTwoRects(skierBounds, obstacleBounds) && this.z <= obstacle.height;
+            return intersectTwoRects(skierBounds, obstacleBounds) && this.z <= obstacle.getHeight();
         });
 
         if (collision) {
-            if (collision.assetName === Constants.JUMP) {
-                this.jump();
-            }
-            else {
-                this.crash();
-            }
+            collision.isRamp() ? this.jump() : this.crash();
         }
     };
 }

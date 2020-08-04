@@ -153,6 +153,22 @@ describe('jump', () => {
     });
 });
 
+describe('crash', () => {
+    it('should change direction', () => {
+        skier.setDirection(Constants.SKIER_DIRECTIONS.DOWN);
+        skier.crash();
+
+        expect(skier.direction).toEqual(Constants.SKIER_DIRECTIONS.CRASH);
+    });
+
+    it('should reset jump', () => {
+        skier.jump();
+        skier.crash();
+
+        expect(skier.isJumping()).toBeFalsy();
+    });
+});
+
 describe('turnLeft', () => {
     it('should not change direction mid-jump', () => {
         skier.setDirection(Constants.SKIER_DIRECTIONS.DOWN);
@@ -219,9 +235,22 @@ describe('checkIfSkierHitObstacle', () => {
         skier.setDirection(Constants.SKIER_DIRECTIONS.DOWN);
         skier.jump();
         skier.progressJump();
-
         skier.checkIfSkierHitObstacle(new ObstacleManager(), new AssetManager());
 
+        expect(skier.direction).toEqual(Constants.SKIER_DIRECTIONS.DOWN);
+    });
+
+    it('should jump when hit ramp', () => {
+        ObstacleManager.mockImplementation(() => {
+            return {
+                getObstacles: jest.fn().mockReturnValue([new Obstacle('Testing', 1, 2, 0, true)])
+            };
+        });
+
+        skier.setDirection(Constants.SKIER_DIRECTIONS.DOWN);
+        skier.checkIfSkierHitObstacle(new ObstacleManager(), new AssetManager());
+
+        expect(skier.isJumping()).toBeTruthy();
         expect(skier.direction).toEqual(Constants.SKIER_DIRECTIONS.DOWN);
     });
 });
