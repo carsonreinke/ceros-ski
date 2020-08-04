@@ -11,6 +11,7 @@ export const TREE = 'tree';
 export const TREE_CLUSTER = 'treeCluster';
 export const ROCK1 = 'rock1';
 export const ROCK2 = 'rock2';
+export const JUMP = 'jump';
 
 export const FRAME_RATE = 1 / 60.0 /*frames per second*/ * 1000.0 /*milliseconds per second*/;
 
@@ -19,7 +20,7 @@ export const FRICTION = 0.9;
 
 export const SKIER_STARTING_SPEED = 10;
 export const SKIER_DIAGONAL_SPEED_REDUCER = 1.4142;
-export const SKIER_JUMP_VELOCITY = 10;
+export const SKIER_JUMP_VELOCITY = 15;
 
 export const ASSETS = {
     [SKIER_CRASH]: 'img/skier_crash.png',
@@ -31,7 +32,8 @@ export const ASSETS = {
     [TREE] : 'img/tree_1.png',
     [TREE_CLUSTER] : 'img/tree_cluster.png',
     [ROCK1] : 'img/rock_1.png',
-    [ROCK2] : 'img/rock_2.png'
+    [ROCK2] : 'img/rock_2.png',
+    [JUMP] : 'img/jump_ramp.png'
 };
 
 export const SKIER_DIRECTIONS = {

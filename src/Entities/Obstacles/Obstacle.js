@@ -18,6 +18,10 @@ const assetTypes = [
     {
         name: Constants.ROCK2,
         height: 0
+    },
+    {
+        name: Constants.JUMP,
+        height: 5
     }
 ];
 

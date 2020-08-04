@@ -162,6 +162,11 @@ export class Skier extends Entity {
         this.verticalVelocity = Constants.SKIER_JUMP_VELOCITY;
     }
 
+    crash() {
+        this.setDirection(Constants.SKIER_DIRECTIONS.CRASH);
+        this.resetJump();
+    }
+
     checkIfSkierHitObstacle(obstacleManager, assetManager) {
         const asset = assetManager.getAsset(this.assetName);
         const skierBounds = new Rect(
@@ -185,8 +190,12 @@ export class Skier extends Entity {
         });
 
         if (collision) {
-            this.setDirection(Constants.SKIER_DIRECTIONS.CRASH);
-            this.resetJump();
+            if (collision.assetName === Constants.JUMP) {
+                this.jump();
+            }
+            else {
+                this.crash();
+            }
         }
     };
 }
