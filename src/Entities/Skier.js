@@ -1,6 +1,6 @@
-import * as Constants from "../Constants";
-import { Entity } from "./Entity";
-import { intersectTwoRects, Rect } from "../Core/Utils";
+import * as Constants from '../Constants';
+import { Entity } from './Entity';
+import { intersectTwoRects, Rect } from '../Core/Utils';
 
 export class Skier extends Entity {
     z = 0;
@@ -37,6 +37,10 @@ export class Skier extends Entity {
 
     isJumping() {
         return this.verticalVelocity !== null;
+    }
+
+    isDead() {
+        return this.direction === Constants.SKIER_DIRECTIONS.DEAD;
     }
 
     resetJump() {
@@ -163,8 +167,13 @@ export class Skier extends Entity {
     }
 
     crash() {
-        this.setDirection(Constants.SKIER_DIRECTIONS.CRASH);
         this.resetJump();
+        this.setDirection(Constants.SKIER_DIRECTIONS.CRASH);
+    }
+
+    die() {
+        this.resetJump();
+        this.setDirection(Constants.SKIER_DIRECTIONS.DEAD);
     }
 
     checkIfSkierHitObstacle(obstacleManager, assetManager) {
