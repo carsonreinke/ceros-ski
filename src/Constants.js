@@ -23,7 +23,7 @@ export const FRICTION = 0.9;
 export const SKIER_STARTING_SPEED = 10;
 export const SKIER_DIAGONAL_SPEED_REDUCER = 1.4142;
 export const SKIER_JUMP_VELOCITY = 15;
-export const RHINO_SPEED = 20;
+export const RHINO_SPEED = 15;
 
 export const ASSETS = {
     [SKIER_CRASH]: 'img/skier_crash.png',
