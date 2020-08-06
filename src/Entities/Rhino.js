@@ -12,6 +12,21 @@ export class Rhino extends Entity {
         this.skier = skier;
     }
 
+    getAssetName() {
+        if(this.killed) {
+            return [
+                Constants.RHINO_EAT_1,
+                Constants.RHINO_EAT_2,
+                Constants.RHINO_EAT_3,
+                Constants.RHINO_EAT_4,
+                Constants.RHINO_EAT_5,
+                Constants.RHINO_EAT_6
+            ];
+        }
+
+        return [Constants.RHINO, Constants.RHINO_RUN_1, Constants.RHINO_RUN_2];
+    }
+
     move() {
         const { x: x1, y: y1 } = this.getPosition();
         const { x: x2, y: y2 } = this.skier.getPosition();
@@ -47,14 +62,14 @@ export class Rhino extends Entity {
 
     checkIfKilledSkier(assetManager) {
         const rects = [this, this.skier].map(entity => {
-            const asset = assetManager.getAsset(entity.getAssetName())
+            const dimensions = assetManager.getAssetDimensions(entity.getAssetName())
             const position = entity.getPosition();
 
             return new Rect(
-                position.x - asset.width / 2,
-                position.y - asset.height / 2,
-                position.x + asset.width / 2,
-                position.y + asset.height / 2
+                position.x - dimensions.width / 2,
+                position.y - dimensions.height / 2,
+                position.x + dimensions.width / 2,
+                position.y + dimensions.height / 2
             );
         });
 

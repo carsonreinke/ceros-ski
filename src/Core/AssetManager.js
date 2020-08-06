@@ -30,6 +30,17 @@ export class AssetManager {
     }
 
     getAsset(assetName) {
-        return this.loadedAssets[assetName];
+        const asset = this.loadedAssets[assetName];
+
+        if(!assetName || !asset) {
+            throw new Error(`Missing asset for "${assetName}"`);
+        }
+
+        return asset;
+    }
+
+    getAssetDimensions(assetName) {
+        const { width, height } = this.getAsset(assetName);
+        return { width, height };
     }
 }

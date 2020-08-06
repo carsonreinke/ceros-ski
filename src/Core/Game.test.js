@@ -16,7 +16,7 @@ describe('run', () => {
 
         game.run();
 
-        expect(window.requestAnimationFrame).toHaveBeenCalledTimes(2);
+        expect(window.requestAnimationFrame).toHaveBeenCalledTimes(3);
     });
 });
 

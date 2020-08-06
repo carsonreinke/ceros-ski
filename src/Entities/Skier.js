@@ -59,6 +59,20 @@ export class Skier extends Entity {
         this.assetName = Constants.SKIER_DIRECTION_ASSET[this.direction];
     }
 
+    getAssetName() {
+        if(this.isJumping()) {
+            return [
+                Constants.SKIER_JUMP_1,
+                Constants.SKIER_JUMP_2,
+                Constants.SKIER_JUMP_3,
+                Constants.SKIER_JUMP_4,
+                Constants.SKIER_JUMP_5
+            ];
+        }
+
+        return this.assetName;
+    }
+
     move() {
         switch (this.direction) {
             case Constants.SKIER_DIRECTIONS.LEFT_DOWN:
@@ -177,21 +191,21 @@ export class Skier extends Entity {
     }
 
     checkIfSkierHitObstacle(obstacleManager, assetManager) {
-        const asset = assetManager.getAsset(this.assetName);
+        const dimensions = assetManager.getAssetDimensions(this.getAssetName());
         const skierBounds = new Rect(
-            this.x - asset.width / 2,
-            this.y - asset.height / 2,
-            this.x + asset.width / 2,
-            this.y - asset.height / 4
+            this.x - dimensions.width / 2,
+            this.y - dimensions.height / 2,
+            this.x + dimensions.width / 2,
+            this.y - dimensions.height / 4
         );
 
         const collision = obstacleManager.getObstacles().find((obstacle) => {
-            const obstacleAsset = assetManager.getAsset(obstacle.getAssetName());
+            const obstacleDimensions = assetManager.getAssetDimensions(obstacle.getAssetName());
             const obstaclePosition = obstacle.getPosition();
             const obstacleBounds = new Rect(
-                obstaclePosition.x - obstacleAsset.width / 2,
-                obstaclePosition.y - obstacleAsset.height / 2,
-                obstaclePosition.x + obstacleAsset.width / 2,
+                obstaclePosition.x - obstacleDimensions.width / 2,
+                obstaclePosition.y - obstacleDimensions.height / 2,
+                obstaclePosition.x + obstacleDimensions.width / 2,
                 obstaclePosition.y
             );
 

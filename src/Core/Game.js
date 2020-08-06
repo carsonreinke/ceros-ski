@@ -5,12 +5,14 @@ import { Skier } from "../Entities/Skier";
 import { ObstacleManager } from "../Entities/Obstacles/ObstacleManager";
 import { Rect } from './Utils';
 import { Rhino } from '../Entities/Rhino';
+import { AnimationManager } from "./AnimationManager";
 
 export class Game {
     gameWindow = null;
 
     constructor() {
         this.assetManager = new AssetManager();
+        this.animationManager = new AnimationManager(this.assetManager);
         this.canvas = new Canvas(Constants.GAME_WIDTH, Constants.GAME_HEIGHT);
         this.skier = new Skier(0, 0);
         this.rhino = new Rhino(this.skier, 0, 
@@ -37,17 +39,24 @@ export class Game {
     }
 
     run() {
-        requestAnimationFrame(this.drawLoop.bind(this));
-        requestAnimationFrame(this.gameLoop.bind(this));
+        this.drawLoop();
+        this.animationLoop();
+        this.gameLoop();
     }
 
     drawLoop() {
         // Per MDN, request next frame early instead of later (see https://developer.mozilla.org/en-US/docs/Games/Anatomy)
-        requestAnimationFrame(this.drawLoop.bind(this));
+        const requestId = requestAnimationFrame(this.drawLoop.bind(this));
 
-        this.canvas.clearCanvas();
+        try {
+            this.canvas.clearCanvas();
 
-        this.drawGameWindow();
+            this.drawGameWindow();
+        }
+        catch(e) {
+            cancelAnimationFrame(requestId);
+            throw e;
+        }
     }
 
     gameLoop(timestamp = performance.now()) {
@@ -60,15 +69,23 @@ export class Game {
 
         if(this.skier.isDead()) {
             document.removeEventListener('keydown', this.keyDownListener);
+            return;
         }
-        else {
-            requestAnimationFrame(this.gameLoop.bind(this));
-        }
+
+        requestAnimationFrame(this.gameLoop.bind(this));
     }
 
-    // animationLoop() {
+    animationLoop(timestamp = performance.now()) {
+        const intervalId = setTimeout(this.animationLoop.bind(this), Constants.ANIMATION_FRAME_RATE);
 
-    // }
+        try {
+            this.animationManager.tick();
+        }
+        catch(e) {
+            clearTimeout(intervalId);
+            throw e;
+        }
+    }
 
     updateGameWindow() {
         this.skier.move();
@@ -79,16 +96,16 @@ export class Game {
 
         this.obstacleManager.placeNewObstacle(this.gameWindow, previousGameWindow);
 
-        this.skier.checkIfSkierHitObstacle(this.obstacleManager, this.assetManager);
-        this.rhino.checkIfKilledSkier(this.assetManager);
+        this.skier.checkIfSkierHitObstacle(this.obstacleManager, this.animationManager);
+        this.rhino.checkIfKilledSkier(this.animationManager);
     }
 
     drawGameWindow() {
         this.canvas.setDrawOffset(this.gameWindow.left, this.gameWindow.top);
 
-        this.skier.draw(this.canvas, this.assetManager);
-        this.rhino.draw(this.canvas, this.assetManager);
-        this.obstacleManager.drawObstacles(this.canvas, this.assetManager);
+        this.skier.draw(this.canvas, this.animationManager);
+        this.rhino.draw(this.canvas, this.animationManager);
+        this.obstacleManager.drawObstacles(this.canvas, this.animationManager);
     }
 
     calculateGameWindow() {
