@@ -254,3 +254,29 @@ describe('checkIfSkierHitObstacle', () => {
         expect(skier.direction).toEqual(Constants.SKIER_DIRECTIONS.DOWN);
     });
 });
+
+describe('die', () => {
+    it('should change direction', () => {
+        skier.setDirection(Constants.SKIER_DIRECTIONS.DOWN);
+        skier.die();
+
+        expect(skier.direction).toEqual(Constants.SKIER_DIRECTIONS.DEAD);
+    });
+
+    it('should reset jump', () => {
+        skier.jump();
+        skier.die();
+
+        expect(skier.isJumping()).toBeFalsy();
+    });
+});
+
+describe('isDead', () => {
+    it('should be true when dead', () => {
+        expect(skier.isDead()).toBeFalsy();
+
+        skier.die();
+
+        expect(skier.isDead()).toBeTruthy();
+    });
+});
