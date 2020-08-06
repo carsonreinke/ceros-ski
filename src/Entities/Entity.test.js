@@ -25,6 +25,8 @@ describe('getPerspectivePosition', () => {
 describe('draw', () => {
     it('should use perspective position', () => {
         class TestEntity extends Entity {
+            assetName = 'test';
+
             getPerspectivePosition() {
                 return {x: 3, y: 4};
             }
@@ -37,5 +39,20 @@ describe('draw', () => {
 
         expect(canvas.drawImage.mock.calls[0][1]).toEqual(-47);
         expect(canvas.drawImage.mock.calls[0][2]).toEqual(-46);
+    });
+
+    it('should not draw when no assets', () => {
+        class TestEntity extends Entity {
+            getName() {
+                return null;
+            }
+        }
+        const entity = new TestEntity(1, 2);
+        const canvas = new Canvas();
+        jest.spyOn(canvas, 'drawImage');
+        
+        entity.draw(canvas, new AssetManager());
+
+        expect(canvas.drawImage).not.toHaveBeenCalled();
     });
 });

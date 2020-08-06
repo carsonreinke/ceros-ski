@@ -25,8 +25,13 @@ export class Entity {
     }
 
     draw(canvas, assetManager) {
+        const assetName = this.getAssetName();
+        if(!assetName) {
+            return;
+        }
+
+        const asset = assetManager.getAsset(assetName);
         const {x, y} = this.getPerspectivePosition();
-        const asset = assetManager.getAsset(this.assetName);
         const drawX = x - asset.width / 2;
         const drawY = y - asset.height / 2;
 
