@@ -9,6 +9,13 @@ export class Entity {
         this.y = y;
     }
 
+    /**
+     * Get all the current assets that can be displayed for this entity.
+     * 
+     * NOTE: This could be an empty array if there is nothing to display
+     * 
+     * @returns {string[]}
+     */
     getAssetNames() {
         const names = [];
         if(this.assetName) {
@@ -24,6 +31,12 @@ export class Entity {
         };
     }
 
+    /**
+     * Get the position of the entity displayed to the user, but not the
+     * actual position the entity is within the game
+     * 
+     * @returns {Object}
+     */
     getPerspectivePosition() {
         return this.getPosition();
     }

@@ -33,6 +33,13 @@ const assetTypes = [
 export class Obstacle extends Entity {
     height = 0;
 
+    /**
+     * Create a random obstacle at the specified location
+     * 
+     * @param {number} x 
+     * @param {number} y 
+     * @returns {Obstacle}
+     */
     static random(x, y) {
         const assetIdx = randomInt(0, assetTypes.length - 1);
         const { name, height, ramp } = assetTypes[assetIdx];
@@ -47,10 +54,20 @@ export class Obstacle extends Entity {
         this.ramp = ramp;
     }
 
+    /**
+     * Height of the obstacle used for collision detection
+     * 
+     * @returns {number}
+     */
     getHeight() {
         return this.height;
     }
 
+    /**
+     * Does this obstacle provide ramping abilities?
+     * 
+     * @returns {boolean}
+     */
     isRamp() {
         return this.ramp;
     }

@@ -39,6 +39,12 @@ export class AssetManager {
         return asset;
     }
 
+    /**
+     * Get the dimensions of an asset
+     * 
+     * @param {string[]} assetName 
+     * @returns {Object}
+     */
     getAssetDimensions(assetName) {
         const { width, height } = this.getAsset(assetName);
         return { width, height };

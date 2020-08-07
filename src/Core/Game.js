@@ -38,12 +38,18 @@ export class Game {
         await this.assetManager.loadAssets(Constants.ASSETS);
     }
 
+    /**
+     * Run the game by starting all the appropriate loops
+     */
     run() {
         this.drawLoop();
         this.animationLoop();
         this.gameLoop();
     }
 
+    /**
+     * Loop of drawing the game on a canvas element automatically called back by `requestAnimationFrame`
+     */
     drawLoop() {
         // Per MDN, request next frame early instead of later (see https://developer.mozilla.org/en-US/docs/Games/Anatomy)
         const requestId = requestAnimationFrame(this.drawLoop.bind(this));
@@ -59,6 +65,12 @@ export class Game {
         }
     }
 
+    /**
+     * Loop of game play throttled by frame rate automatically called back by `requestAnimationFrame`.
+     * This also checks to see if the game should stop.
+     * 
+     * @param {double} timestamp 
+     */
     gameLoop(timestamp = performance.now()) {
         // Check if frame is ready to be progressed
         if(timestamp - this.timestamp >= Constants.FRAME_RATE) {
@@ -75,7 +87,11 @@ export class Game {
         requestAnimationFrame(this.gameLoop.bind(this));
     }
 
-    animationLoop(timestamp = performance.now()) {
+    /**
+     * Loop to progress any animations automatically called back by `setTimeout`
+     */
+    animationLoop() {
+        // Can use a simple timer here since this does not directly impact drawing
         const intervalId = setTimeout(this.animationLoop.bind(this), Constants.ANIMATION_FRAME_RATE);
 
         try {

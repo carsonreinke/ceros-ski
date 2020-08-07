@@ -7,6 +7,14 @@ export class Rhino extends Entity {
     skier = null;
     killed = false;
 
+    /**
+     * Construct the rhino with a specific dependency on the skier to allow
+     * following
+     * 
+     * @param {Skier} skier 
+     * @param {number} x 
+     * @param {number} y 
+     */
     constructor(skier, x, y) {
         super(x, y);
         this.skier = skier;
@@ -27,6 +35,9 @@ export class Rhino extends Entity {
         return [Constants.RHINO, Constants.RHINO_RUN_1, Constants.RHINO_RUN_2];
     }
 
+    /**
+     * Progess the rhino by following the skier's position
+     */
     move() {
         const { x: x1, y: y1 } = this.getPosition();
         const { x: x2, y: y2 } = this.skier.getPosition();
@@ -53,6 +64,9 @@ export class Rhino extends Entity {
         this.y += (opp < 0 ? -1 : 1) * change.y;
     }
 
+    /**
+     * Match the skier's position to avoid any repeated movements
+     */
     moveToFinalPosition() {
         // Match position of skier
         const { x, y } = this.skier.getPosition();
@@ -60,6 +74,12 @@ export class Rhino extends Entity {
         this.y = y;
     }
 
+    /**
+     * Collision check to see if rhino has caught the skier.  If so, move to
+     * final position and tell skier to die
+     * 
+     * @param {AnimationManager} assetManager 
+     */
     checkIfKilledSkier(assetManager) {
         const rects = [this, this.skier].map(entity => {
             const dimensions = assetManager.getAssetDimensions(entity.getAssetNames())

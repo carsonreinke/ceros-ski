@@ -1,5 +1,44 @@
 # Ceros Ski Code Challenge
 
+## How To Play
+
+Go to https://carsonreinke.github.io/ceros-ski/.
+
+Arrow keys to rotate your skier, space bar to jump.
+
+## Objective
+
+None really, just ski around, after 1 minute the rhino will grab you!  You can jump over rocks, but not trees.
+
+## New Features
+
+* A number of test cases
+* Improved controls of drawing and animation frame rate
+* Jumping ability using space bar including animations
+* Allowed to jump over some rock obstacles, but not trees
+* Ramp to jump the skier
+* Rhino chasing skier to end the game
+
+## Source
+
+https://github.com/carsonreinke/ceros-ski
+
+## Testing
+
+To run tests: `npm install && npm run test`
+
+## Deploying
+
+To deploy to `gh-pages` branch run: `npm run deploy`
+
+## Known Bugs
+
+* Going up into a ramp will put the skier into an infinite jump loop
+
+---
+
+# Original
+
 Welcome to the Ceros Code Challenge - Ski Edition!
 
 For this challenge, we have included some base code for Ceros Ski, our version of the classic Windows game SkiFree. If

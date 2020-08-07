@@ -1,6 +1,7 @@
 import * as Constants from '../Constants';
 import { Entity } from './Entity';
 import { intersectTwoRects, Rect } from '../Core/Utils';
+import { ObstacleManager } from './Obstacles/ObstacleManager';
 
 export class Skier extends Entity {
     z = 0;
@@ -23,31 +24,55 @@ export class Skier extends Entity {
         this.updateAsset();
     }
 
+    /**
+     * Rotate the skier's direction to the left, but not if crashed or already fully left
+     */
     rotateLeft() {
         if (this.direction !== Constants.SKIER_DIRECTIONS.CRASH && this.direction > Constants.SKIER_DIRECTIONS.LEFT) {
             this.setDirection(this.direction - 1);
         }
     }
 
+    /**
+     * Rotate the skier's direction to the right, but not if crashed or already fully right
+     */
     rotateRight() {
         if (this.direction !== Constants.SKIER_DIRECTIONS.CRASH && this.direction < Constants.SKIER_DIRECTIONS.RIGHT) {
             this.setDirection(this.direction + 1);
         }
     }
 
+    /**
+     * Is the skier currently jumping?
+     * 
+     * @returns {boolean}
+     */
     isJumping() {
         return this.verticalVelocity !== null;
     }
 
+    /**
+     * Has the skier died?
+     * 
+     * @returns {boolean}
+     */
     isDead() {
         return this.direction === Constants.SKIER_DIRECTIONS.DEAD;
     }
 
+    /**
+     * Reset any current jump
+     */
     resetJump() {
         this.z = 0;
         this.verticalVelocity = null;
     }
 
+    /**
+     * Position displayed for the skier can also be based on current jump state
+     * 
+     * @returns {Object}
+     */
     getPerspectivePosition() {
         return {
             x: this.x,
@@ -118,6 +143,9 @@ export class Skier extends Entity {
         this.y -= Constants.SKIER_STARTING_SPEED;
     }
 
+    /**
+     * Progress the skier in vertical space until her/him has reached the ground
+     */
     progressJump() {
         this.verticalVelocity -= Constants.GRAVITY;
         this.z += this.verticalVelocity;
@@ -172,6 +200,9 @@ export class Skier extends Entity {
         this.setDirection(Constants.SKIER_DIRECTIONS.DOWN);
     }
 
+    /**
+     * Jump the skier, but do nothing if already jumping
+     */
     jump() {
         if (this.isJumping()) {
             return;
@@ -180,16 +211,28 @@ export class Skier extends Entity {
         this.verticalVelocity = Constants.SKIER_JUMP_VELOCITY;
     }
 
+    /**
+     * Skier has now crashed
+     */
     crash() {
         this.resetJump();
         this.setDirection(Constants.SKIER_DIRECTIONS.CRASH);
     }
 
+    /**
+     * Skier had now died
+     */
     die() {
         this.resetJump();
         this.setDirection(Constants.SKIER_DIRECTIONS.DEAD);
     }
 
+    /**
+     * Check if skier has hit any obstacles, if so, either crash or jump
+     * 
+     * @param {ObstacleManager} obstacleManager 
+     * @param {AnimationManager} assetManager 
+     */
     checkIfSkierHitObstacle(obstacleManager, assetManager) {
         const dimensions = assetManager.getAssetDimensions(this.getAssetNames());
         const skierBounds = new Rect(
