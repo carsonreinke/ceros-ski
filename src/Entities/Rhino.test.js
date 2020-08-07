@@ -1,6 +1,7 @@
 import { Rhino } from './Rhino';
 import { Skier } from './Skier';
 import { AssetManager } from '../Core/AssetManager';
+import * as Constants from '../Constants';
 
 jest.mock('../Core/AssetManager');
 
@@ -77,5 +78,16 @@ describe('checkIfKilledSkier', () => {
         rhino.checkIfKilledSkier(new AssetManager());
 
         expect(rhino.getPosition()).toEqual(skier.getPosition());
+    });
+});
+
+describe('getAssetNames', () => {
+    it('should have default assets', () => {
+        expect(rhino.getAssetNames()).toContain(Constants.RHINO);
+    })
+
+    it('should more assets when killed skier', () => {
+        rhino.killed = true;
+        expect(rhino.getAssetNames()).toContain(Constants.RHINO_EAT_1);
     });
 });

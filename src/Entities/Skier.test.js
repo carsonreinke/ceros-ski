@@ -282,5 +282,13 @@ describe('isDead', () => {
 });
 
 describe('getAssetNames', () => {
-    //TODO
+    it('should have default assets', () => {
+        skier.setDirection(Constants.SKIER_DIRECTIONS.DOWN);
+        expect(skier.getAssetNames()).toContain(Constants.SKIER_DOWN);
+    })
+
+    it('should have different assets when jumping', () => {
+        skier.jump();
+        expect(skier.getAssetNames()).toContain(Constants.SKIER_JUMP_1);
+    });
 });

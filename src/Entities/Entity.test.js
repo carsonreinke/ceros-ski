@@ -43,8 +43,8 @@ describe('draw', () => {
 
     it('should not draw when no assets', () => {
         class TestEntity extends Entity {
-            getName() {
-                return null;
+            getAssetNames() {
+                return [];
             }
         }
         const entity = new TestEntity(1, 2);
@@ -58,5 +58,21 @@ describe('draw', () => {
 });
 
 describe('getAssetNames', () => {
-    //TODO
+    it('should get array of names', () => {
+        class TestEntity extends Entity {
+            assetName = 'test';
+        }
+        const entity = new TestEntity();
+
+        expect(entity.getAssetNames()).toEqual(['test']);
+    });
+
+    it('should be an empty array when missing', () => {
+        class TestEntity extends Entity {
+            assetName = undefined;
+        }
+        const entity = new TestEntity();
+        
+        expect(entity.getAssetNames()).toHaveLength(0);
+    });
 });
