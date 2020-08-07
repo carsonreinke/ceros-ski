@@ -280,3 +280,7 @@ describe('isDead', () => {
         expect(skier.isDead()).toBeTruthy();
     });
 });
+
+describe('getAssetNames', () => {
+    //TODO
+});

@@ -1,6 +1,6 @@
 const mod = jest.genMockFromModule('../AssetManager');
 
-mod.AssetManager.mockImplementation(() => {
+mod.AnimationManager.mockImplementation(() => {
     return {
         loadAssets: jest.fn(),
         getAsset: () => {

@@ -10,12 +10,7 @@ export class AnimationManager {
     }
 
     getAsset(assetNames) {
-        let assetName = assetNames;
-
-        if(Array.isArray(assetNames)) {
-            assetName = assetNames[ this.frame % assetNames.length];
-        }
-
+        const assetName = assetNames[this.frame % assetNames.length];
         return this.assetManager.getAsset(assetName);
     }
 

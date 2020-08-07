@@ -59,7 +59,7 @@ export class Skier extends Entity {
         this.assetName = Constants.SKIER_DIRECTION_ASSET[this.direction];
     }
 
-    getAssetName() {
+    getAssetNames() {
         if(this.isJumping()) {
             return [
                 Constants.SKIER_JUMP_1,
@@ -70,7 +70,7 @@ export class Skier extends Entity {
             ];
         }
 
-        return this.assetName;
+        return super.getAssetNames();
     }
 
     move() {
@@ -191,7 +191,7 @@ export class Skier extends Entity {
     }
 
     checkIfSkierHitObstacle(obstacleManager, assetManager) {
-        const dimensions = assetManager.getAssetDimensions(this.getAssetName());
+        const dimensions = assetManager.getAssetDimensions(this.getAssetNames());
         const skierBounds = new Rect(
             this.x - dimensions.width / 2,
             this.y - dimensions.height / 2,
@@ -200,7 +200,7 @@ export class Skier extends Entity {
         );
 
         const collision = obstacleManager.getObstacles().find((obstacle) => {
-            const obstacleDimensions = assetManager.getAssetDimensions(obstacle.getAssetName());
+            const obstacleDimensions = assetManager.getAssetDimensions(obstacle.getAssetNames());
             const obstaclePosition = obstacle.getPosition();
             const obstacleBounds = new Rect(
                 obstaclePosition.x - obstacleDimensions.width / 2,

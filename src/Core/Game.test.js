@@ -12,11 +12,17 @@ beforeEach(() => {
 
 describe('run', () => {
     it('should call request animation', async () => {
-        jest.spyOn(window, 'requestAnimationFrame');
+        jest.spyOn(game, 'drawLoop');
+        jest.spyOn(game, 'gameLoop');
+        jest.spyOn(game, 'animationLoop');
 
+        await game.load();
+        game.init();
         game.run();
 
-        expect(window.requestAnimationFrame).toHaveBeenCalledTimes(3);
+        expect(game.drawLoop).toHaveBeenCalled();
+        expect(game.gameLoop).toHaveBeenCalled();
+        expect(game.animationLoop).toHaveBeenCalled();
     });
 });
 
@@ -89,6 +95,24 @@ describe('gameLoop', () => {
         game.gameLoop();
 
         expect(document.removeEventListener).toHaveBeenCalled();
+    });
+});
+
+describe('animationLoop', () => {
+    it('should call set timeout', async () => {
+        jest.spyOn(window, 'setTimeout');
+
+        game.animationLoop();
+
+        expect(window.setTimeout).toHaveBeenCalled();
+    });
+
+    it('should call tick', async () => {
+        jest.spyOn(game.animationManager, 'tick');
+
+        game.animationLoop();
+
+        expect(game.animationManager.tick).toHaveBeenCalled();
     });
 });
 

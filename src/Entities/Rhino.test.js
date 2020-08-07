@@ -11,6 +11,13 @@ beforeEach(() => {
     rhino = new Rhino(skier, 0, 0);
 });
 
+describe('constructor', () => {
+    it('should create object', () => {
+        expect(rhino.x).toEqual(0);
+        expect(rhino.y).toEqual(0);
+    });
+});
+
 describe('move', () => {
     it('should follow skier below right', () => {
         skier.x = 25;

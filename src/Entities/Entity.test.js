@@ -56,3 +56,7 @@ describe('draw', () => {
         expect(canvas.drawImage).not.toHaveBeenCalled();
     });
 });
+
+describe('getAssetNames', () => {
+    //TODO
+});

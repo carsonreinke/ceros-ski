@@ -9,8 +9,12 @@ export class Entity {
         this.y = y;
     }
 
-    getAssetName() {
-        return this.assetName;
+    getAssetNames() {
+        const names = [];
+        if(this.assetName) {
+            names.push(this.assetName);
+        }
+        return names;
     }
 
     getPosition() {
@@ -25,8 +29,8 @@ export class Entity {
     }
 
     draw(canvas, assetManager) {
-        const assetName = this.getAssetName();
-        if(!assetName) {
+        const assetName = this.getAssetNames();
+        if(assetName.length === 0) {
             return;
         }
 

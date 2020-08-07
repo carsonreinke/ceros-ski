@@ -32,7 +32,7 @@ export class AssetManager {
     getAsset(assetName) {
         const asset = this.loadedAssets[assetName];
 
-        if(!assetName || !asset) {
+        if (!assetName || !asset) {
             throw new Error(`Missing asset for "${assetName}"`);
         }
 

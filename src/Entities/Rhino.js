@@ -12,7 +12,7 @@ export class Rhino extends Entity {
         this.skier = skier;
     }
 
-    getAssetName() {
+    getAssetNames() {
         if(this.killed) {
             return [
                 Constants.RHINO_EAT_1,
@@ -62,7 +62,7 @@ export class Rhino extends Entity {
 
     checkIfKilledSkier(assetManager) {
         const rects = [this, this.skier].map(entity => {
-            const dimensions = assetManager.getAssetDimensions(entity.getAssetName())
+            const dimensions = assetManager.getAssetDimensions(entity.getAssetNames())
             const position = entity.getPosition();
 
             return new Rect(
